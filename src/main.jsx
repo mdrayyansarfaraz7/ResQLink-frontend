@@ -13,9 +13,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         
         <Route path="/" element={<HomePage />} />
-
-        
-        <Route path="/app" element={<App />} />
         <Route path="/client-form" element={<FamilyForm />} />
         <Route path="/manager-form" element={<ManagerForm />} />
       </Routes>

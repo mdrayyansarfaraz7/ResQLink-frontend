@@ -75,7 +75,7 @@ function Header({ mobileOpen, setMobileOpen }) {
               <HeartPulse className="h-5 w-5" />
             </span>
             <span className="text-xl font-bold tracking-tight text-blue-700">
-              Smart
+              ResQLink
             </span>
           </a>
 
@@ -120,7 +120,7 @@ function Header({ mobileOpen, setMobileOpen }) {
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white">
               <HeartPulse className="h-5 w-5" />
             </span>
-            <span className="font-semibold text-slate-900">Smart Reunite</span>
+            <span className="font-semibold text-slate-900">ResQLink</span>
           </div>
           <button
             onClick={() => setMobileOpen(false)}
@@ -168,7 +168,7 @@ function Hero() {
         className="absolute inset-0 -z-10 bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1482192505345-5655af888cc4?q=80&w=1974&auto=format&fit=crop')",
+            "url('https://image.cnbcfm.com/api/v1/image/106806318-16070850822020-12-04t110151z_1392206137_rc2bgk94ci4s_rtrmadp_0_usa-immigration-storms.jpeg?v=1610032508')",
         }}
       />
       <div className="absolute inset-0 -z-10 bg-slate-900/55" />
