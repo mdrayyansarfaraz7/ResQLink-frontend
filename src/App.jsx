@@ -6,7 +6,7 @@ function App() {
     <>
     <div className="flex items-center justify-center h-screen">
       <div className="text-5xl font-bold">
-        ResQLink
+        <HomePage />
       </div>
     </div>
       
