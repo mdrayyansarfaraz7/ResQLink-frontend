@@ -88,47 +88,75 @@ const ManagerForm = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const submissionData = new FormData();
+  try {
+    // Ensure a photo is selected
+    if (!formData.photo || !(formData.photo instanceof File)) {
+      alert("Please select a photo before submitting.");
+      return;
+    }
 
-      submissionData.append("foundAtLocation", formData.foundAtLocation);
-      submissionData.append("foundDate", formData.foundDate);
-      submissionData.append("condition", formData.condition);
-      submissionData.append("estimatedAge", formData.estimatedAge);
-      submissionData.append("gender", formData.gender);
-      submissionData.append("clothingDescription", formData.clothingDescription);
-      submissionData.append("status", formData.status);
-      submissionData.append("additionalNotes", formData.additionalNotes);
+    const submissionData = new FormData();
 
-      if (formData.photo) {
-        submissionData.append("photo", formData.photo);
-      }
+    // Append top-level fields
+    submissionData.append("foundAtLocation", formData.foundAtLocation);
+    submissionData.append("foundDate", formData.foundDate);
+    submissionData.append("condition", formData.condition);
+    submissionData.append("estimatedAge", formData.estimatedAge);
+    submissionData.append("gender", formData.gender);
+    submissionData.append("clothingDescription", formData.clothingDescription);
+    submissionData.append("status", formData.status);
+    submissionData.append("additionalNotes", formData.additionalNotes);
 
-      // stringify nested objects
-      submissionData.append("physicalDescription", JSON.stringify(formData.physicalDescription));
-      submissionData.append("belongings", JSON.stringify(formData.belongings));
-      submissionData.append("recoveryDetails", JSON.stringify(formData.recoveryDetails));
-      submissionData.append("storageDetails", JSON.stringify(formData.storageDetails));
+    // Append file
+    submissionData.append("photo", formData.photo);
 
-      const res = await axios.post("http://localhost:8080/api/unidentified", submissionData, {
+    // Append nested objects as JSON strings
+    submissionData.append(
+      "physicalDescription",
+      JSON.stringify(formData.physicalDescription)
+    );
+    submissionData.append("belongings", JSON.stringify(formData.belongings));
+    submissionData.append(
+      "recoveryDetails",
+      JSON.stringify(formData.recoveryDetails)
+    );
+    submissionData.append(
+      "storageDetails",
+      JSON.stringify(formData.storageDetails)
+    );
+
+    // Debug: log FormData entries
+    for (let [key, value] of submissionData.entries()) {
+      console.log(key, value);
+    }
+
+    // Axios POST
+    const res = await axios.post(
+      "http://localhost:8080/api/unidentified",
+      submissionData,
+      {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      });
-
-      if (res.status === 201) {
-        setSuccessMessage("✅ Record uploaded successfully!");
-        resetForm();
-        setTimeout(() => setSuccessMessage(""), 3000);
       }
-    } catch (error) {
-      console.error("Error submitting report:", error.response?.data || error.message);
-      alert("Failed to submit report. Please try again.");
+    );
+
+    console.log("Response:", res);
+
+    if (res.status === 201) {
+      setSuccessMessage("✅ Record uploaded successfully!");
+      resetForm();
+      setTimeout(() => setSuccessMessage(""), 3000);
     }
-  };
+  } catch (error) {
+    console.error("Error submitting report:", error.response?.data || error.message);
+    alert("Failed to submit report. Please try again.");
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-neutral-light flex justify-center items-center px-4 py-10">
