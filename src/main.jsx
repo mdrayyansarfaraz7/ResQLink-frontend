@@ -17,7 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/client-form" element={<FamilyForm />} />
         <Route path="/manager-form" element={<ManagerForm />} />
         <Route path='/matches' element={<PotentialMatches/>}/>
-        <Route path='/search-match' element={<SearchMatch/>}/>
+        {/* <Route path='/search-match' element={<SearchMatch/>}/> */}
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

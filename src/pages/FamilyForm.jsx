@@ -133,7 +133,10 @@ const ClientForm = () => {
         </h2>
 
         {/* Personal Info */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+          Personal Information
+        </h3>
+        <div className="flex grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label className="block text-neutral-dark mb-1">Full Name</label>
             <input
@@ -155,6 +158,7 @@ const ClientForm = () => {
               onChange={handleChange}
               className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
               required
+              min={0}
             />
           </div>
 
@@ -176,6 +180,9 @@ const ClientForm = () => {
         </div>
 
         {/* Physical Description */}
+        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+          Physical Description
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <input
             type="number"
@@ -184,6 +191,7 @@ const ClientForm = () => {
             value={formData.physicalDescription.height}
             onChange={(e) => handleChange(e, "physicalDescription")}
             className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            min={0}
           />
           <input
             type="number"
@@ -192,6 +200,7 @@ const ClientForm = () => {
             value={formData.physicalDescription.weight}
             onChange={(e) => handleChange(e, "physicalDescription")}
             className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            min={0}
           />
           <input
             type="text"
@@ -220,6 +229,9 @@ const ClientForm = () => {
         </div>
 
         {/* Last Seen & Cause of Separation */}
+        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+          Last Seen Details
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <input
             type="text"
@@ -255,6 +267,9 @@ const ClientForm = () => {
         </div>
 
         {/* Photo & Additional Notes */}
+        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+          Photo and Additional Note
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-neutral-dark mb-1">Photo</label>
@@ -281,6 +296,9 @@ const ClientForm = () => {
         </div>
 
         {/* Contact Info */}
+        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+          Contact Information
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <input
             type="text"

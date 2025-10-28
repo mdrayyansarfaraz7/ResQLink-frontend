@@ -159,12 +159,12 @@ const ManagerForm = () => {
 
 
   return (
-    <div className="min-h-screen bg-neutral-light flex justify-center items-center px-4 py-10">
+     <div className="min-h-screen bg-neutral-light flex justify-center items-center px-3 sm:px-6 md:px-10 py-6 md:py-10">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-3xl font-body"
+        className="bg-white shadow-lg rounded-2xl p-4 sm:p-6 md:p-8 w-full max-w-5xl font-body grid gap-6 sm:gap-8"
       >
-        <h2 className="text-3xl font-heading font-bold text-primary text-center mb-8">
+        <h2 className="text-2xl sm:text-3xl font-heading font-bold text-primary text-center mb-6 sm:mb-8">
           Unidentified Person Report
         </h2>
 
@@ -175,7 +175,7 @@ const ManagerForm = () => {
         )}
 
         {/* Found Details */}
-        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
           Found Details
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -185,7 +185,7 @@ const ManagerForm = () => {
             placeholder="Found At Location"
             value={formData.foundAtLocation}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
             required
           />
           <input
@@ -193,14 +193,14 @@ const ManagerForm = () => {
             name="foundDate"
             value={formData.foundDate}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
             required
           />
           <select
             name="condition"
             value={formData.condition}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
             required
           >
             <option value="">Select Condition</option>
@@ -214,13 +214,13 @@ const ManagerForm = () => {
             placeholder="Estimated Age"
             value={formData.estimatedAge}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
           <select
             name="gender"
             value={formData.gender}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           >
             <option>Male</option>
             <option>Female</option>
@@ -230,7 +230,7 @@ const ManagerForm = () => {
         </div>
 
         {/* Physical Description */}
-        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
           Physical Description
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -240,7 +240,7 @@ const ManagerForm = () => {
             placeholder="Height (cm)"
             value={formData.physicalDescription.height}
             onChange={(e) => handleChange(e, "physicalDescription")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
           <input
             type="number"
@@ -248,7 +248,7 @@ const ManagerForm = () => {
             placeholder="Weight (kg)"
             value={formData.physicalDescription.weight}
             onChange={(e) => handleChange(e, "physicalDescription")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
           <input
             type="text"
@@ -256,7 +256,7 @@ const ManagerForm = () => {
             placeholder="Eye Color"
             value={formData.physicalDescription.eyeColor}
             onChange={(e) => handleChange(e, "physicalDescription")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
           <input
             type="text"
@@ -264,7 +264,7 @@ const ManagerForm = () => {
             placeholder="Hair Color"
             value={formData.physicalDescription.hairColor}
             onChange={(e) => handleChange(e, "physicalDescription")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
           <input
             type="text"
@@ -272,12 +272,12 @@ const ManagerForm = () => {
             placeholder="Distinguishing Marks"
             value={formData.physicalDescription.distinguishingMarks}
             onChange={(e) => handleChange(e, "physicalDescription")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary col-span-2"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
         </div>
 
         {/* Clothing & Belongings */}
-        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
           Clothing & Belongings
         </h3>
         <div className="mb-6">
@@ -287,7 +287,7 @@ const ManagerForm = () => {
             placeholder="Clothing Description"
             value={formData.clothingDescription}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary mb-4"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
           {formData.belongings.map((item, index) => (
             <input
@@ -296,7 +296,7 @@ const ManagerForm = () => {
               placeholder={`Belonging ${index + 1}`}
               value={item}
               onChange={(e) => handleBelongingsChange(index, e.target.value)}
-              className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary mb-2"
+              className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
             />
           ))}
           <button
@@ -309,7 +309,7 @@ const ManagerForm = () => {
         </div>
 
         {/* Photo */}
-        <div className="mb-6">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:gap-4">
           <label className="block text-neutral-dark mb-1">Photo</label>
           <input
             type="file"
@@ -317,13 +317,13 @@ const ManagerForm = () => {
             onChange={(e) =>
               setFormData({ ...formData, photo: e.target.files[0] })
             }
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
             required
           />
         </div>
 
         {/* Recovery Details */}
-        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
           Recovery Details
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -333,7 +333,7 @@ const ManagerForm = () => {
             placeholder="Recovered By (team/org)"
             value={formData.recoveryDetails.recoveredBy}
             onChange={(e) => handleChange(e, "recoveryDetails")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
           <input
             type="text"
@@ -341,7 +341,7 @@ const ManagerForm = () => {
             placeholder="Rescue Contact No."
             value={formData.recoveryDetails.contact}
             onChange={(e) => handleChange(e, "recoveryDetails")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
           <input
             type="text"
@@ -349,12 +349,12 @@ const ManagerForm = () => {
             placeholder="Case / Reference ID"
             value={formData.recoveryDetails.referenceId}
             onChange={(e) => handleChange(e, "recoveryDetails")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
         </div>
 
         {/* Storage Details */}
-        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
           Storage Details
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -364,7 +364,7 @@ const ManagerForm = () => {
             placeholder="Hospital"
             value={formData.storageDetails.hospital}
             onChange={(e) => handleChange(e, "storageDetails")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
           <input
             type="text"
@@ -372,7 +372,7 @@ const ManagerForm = () => {
             placeholder="Morgue"
             value={formData.storageDetails.morgue}
             onChange={(e) => handleChange(e, "storageDetails")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
           <input
             type="text"
@@ -380,12 +380,12 @@ const ManagerForm = () => {
             placeholder="Ward / Unit"
             value={formData.storageDetails.wardOrUnit}
             onChange={(e) => handleChange(e, "storageDetails")}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           />
         </div>
 
         {/* Case Status */}
-        <h3 className="text-xl font-heading font-semibold text-neutral-dark mb-4">
+        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
           Case Status
         </h3>
         <div className="mb-6">
@@ -393,7 +393,7 @@ const ManagerForm = () => {
             name="status"
             value={formData.status}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
           >
             <option value="unidentified">Unidentified</option>
             <option value="matched">Matched</option>
@@ -409,7 +409,7 @@ const ManagerForm = () => {
             name="additionalNotes"
             value={formData.additionalNotes}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary"
+            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
             rows="3"
           ></textarea>
         </div>
@@ -417,7 +417,7 @@ const ManagerForm = () => {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-primary text-white font-heading py-3 rounded-2xl hover:bg-secondary transition"
+          className="w-full bg-primary text-white font-heading py-2 sm:py-3 text-sm sm:text-base rounded-2xl hover:bg-secondary transition"
         >
           Submit Report
         </button>
