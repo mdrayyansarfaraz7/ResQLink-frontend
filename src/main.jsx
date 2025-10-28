@@ -7,6 +7,7 @@ import FamilyForm from "./pages/FamilyForm.jsx";
 import ManagerForm from "./pages/ManagerForm.jsx";
 import "./index.css";
 import PotentialMatches from "./pages/PotentialMatches.jsx";
+import SearchMatch from "./pages/SearchMatch.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -17,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/client-form" element={<FamilyForm />} />
         <Route path="/manager-form" element={<ManagerForm />} />
         <Route path='/matches' element={<PotentialMatches/>}/>
-        {/* <Route path='/search-match' element={<SearchMatch/>}/> */}
+        <Route path='/search-match' element={<SearchMatch/>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
