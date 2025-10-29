@@ -32,6 +32,7 @@ const ManagerForm = () => {
     additionalNotes: "",
   });
 
+  const [preview, setPreview] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e, parent = null) => {
@@ -86,106 +87,103 @@ const ManagerForm = () => {
       status: "unidentified",
       additionalNotes: "",
     });
+    setPreview(null);
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-    // Ensure a photo is selected
-    if (!formData.photo || !(formData.photo instanceof File)) {
-      alert("Please select a photo before submitting.");
-      return;
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, photo: file });
+      setPreview(URL.createObjectURL(file));
     }
+  };
 
-    const submissionData = new FormData();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    // Append top-level fields
-    submissionData.append("foundAtLocation", formData.foundAtLocation);
-    submissionData.append("foundDate", formData.foundDate);
-    submissionData.append("condition", formData.condition);
-    submissionData.append("estimatedAge", formData.estimatedAge);
-    submissionData.append("gender", formData.gender);
-    submissionData.append("clothingDescription", formData.clothingDescription);
-    submissionData.append("status", formData.status);
-    submissionData.append("additionalNotes", formData.additionalNotes);
-
-    // Append file
-    submissionData.append("photo", formData.photo);
-
-    // Append nested objects as JSON strings
-    submissionData.append(
-      "physicalDescription",
-      JSON.stringify(formData.physicalDescription)
-    );
-    submissionData.append("belongings", JSON.stringify(formData.belongings));
-    submissionData.append(
-      "recoveryDetails",
-      JSON.stringify(formData.recoveryDetails)
-    );
-    submissionData.append(
-      "storageDetails",
-      JSON.stringify(formData.storageDetails)
-    );
-
-    // Debug: log FormData entries
-    for (let [key, value] of submissionData.entries()) {
-      console.log(key, value);
-    }
-
-    // Axios POST
-    const res = await axios.post(
-      "http://localhost:8080/api/unidentified",
-      submissionData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+    try {
+      if (!formData.photo || !(formData.photo instanceof File)) {
+        alert("Please upload a photo before submitting.");
+        return;
       }
-    );
 
-    console.log("Response:", res);
+      const submissionData = new FormData();
+      submissionData.append("foundAtLocation", formData.foundAtLocation);
+      submissionData.append("foundDate", formData.foundDate);
+      submissionData.append("condition", formData.condition);
+      submissionData.append("estimatedAge", formData.estimatedAge);
+      submissionData.append("gender", formData.gender);
+      submissionData.append(
+        "clothingDescription",
+        formData.clothingDescription
+      );
+      submissionData.append("status", formData.status);
+      submissionData.append("additionalNotes", formData.additionalNotes);
+      submissionData.append("photo", formData.photo);
+      submissionData.append(
+        "physicalDescription",
+        JSON.stringify(formData.physicalDescription)
+      );
+      submissionData.append("belongings", JSON.stringify(formData.belongings));
+      submissionData.append(
+        "recoveryDetails",
+        JSON.stringify(formData.recoveryDetails)
+      );
+      submissionData.append(
+        "storageDetails",
+        JSON.stringify(formData.storageDetails)
+      );
 
-    if (res.status === 201) {
-      setSuccessMessage("✅ Record uploaded successfully!");
-      resetForm();
-      setTimeout(() => setSuccessMessage(""), 3000);
+      const res = await axios.post(
+        "http://localhost:8080/api/unidentified",
+        submissionData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      if (res.status === 201) {
+        setSuccessMessage("✅ Report submitted successfully!");
+        resetForm();
+        setTimeout(() => setSuccessMessage(""), 4000);
+      }
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+      alert("Failed to submit report. Please try again.");
     }
-  } catch (error) {
-    console.error("Error submitting report:", error.response?.data || error.message);
-    alert("Failed to submit report. Please try again.");
-  }
-};
-
+  };
 
   return (
-     <div className="min-h-screen bg-neutral-light flex justify-center items-center px-3 sm:px-6 md:px-10 py-6 md:py-10">
+    <div className="min-h-screen bg-gray-50 flex justify-center items-start py-10 px-4">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-2xl p-4 sm:p-6 md:p-8 w-full max-w-5xl font-body grid gap-6 sm:gap-8"
+        className="bg-white shadow-lg border border-gray-200 rounded-2xl p-8 w-full max-w-5xl"
       >
-        <h2 className="text-2xl sm:text-3xl font-heading font-bold text-primary text-center mb-6 sm:mb-8">
-          Unidentified Person Report
+        <h2 className="text-2xl font-bold text-blue-900 mb-2 text-center">
+          Official Unidentified Person Report Form
         </h2>
+        <p className="text-gray-600 text-center mb-6">
+          This report is for unidentified individuals found during rescue or
+          relief operations. Please provide accurate details for proper
+          coordination and matching.
+        </p>
 
         {successMessage && (
-          <div className="mb-6 text-green-600 font-semibold text-center">
+          <div className="bg-green-50 text-green-700 border border-green-300 rounded-lg p-3 text-center mb-4">
             {successMessage}
           </div>
         )}
 
-        {/* Found Details */}
-        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
-          Found Details
+        {/* Section: Found Details */}
+        <h3 className="text-lg font-semibold text-blue-800 mt-6 mb-3">
+          1. Found Details
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div className="grid md:grid-cols-2 gap-4">
           <input
             type="text"
             name="foundAtLocation"
             placeholder="Found At Location"
             value={formData.foundAtLocation}
             onChange={handleChange}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
+            className="border rounded-lg p-2 w-full"
             required
           />
           <input
@@ -193,19 +191,20 @@ const ManagerForm = () => {
             name="foundDate"
             value={formData.foundDate}
             onChange={handleChange}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
+            className="border rounded-lg p-2 w-full"
             required
           />
           <select
             name="condition"
             value={formData.condition}
             onChange={handleChange}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
+            className="border rounded-lg p-2 w-full"
             required
           >
             <option value="">Select Condition</option>
-            <option value="alive_injured">Alive - Injured</option>
-            <option value="alive_unconscious">Alive - Unconscious</option>
+            <option value="alive_injured">Alive – Injured</option>
+            <option value="alive_unconscious">Alive – Unconscious</option>
+            <option value="deceased">Deceased</option>
             <option value="other">Other</option>
           </select>
           <input
@@ -214,165 +213,121 @@ const ManagerForm = () => {
             placeholder="Estimated Age"
             value={formData.estimatedAge}
             onChange={handleChange}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-          />
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-          >
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-            <option>Unknown</option>
-          </select>
-        </div>
-
-        {/* Physical Description */}
-        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
-          Physical Description
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <input
-            type="number"
-            name="height"
-            placeholder="Height (cm)"
-            value={formData.physicalDescription.height}
-            onChange={(e) => handleChange(e, "physicalDescription")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-          />
-          <input
-            type="number"
-            name="weight"
-            placeholder="Weight (kg)"
-            value={formData.physicalDescription.weight}
-            onChange={(e) => handleChange(e, "physicalDescription")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-          />
-          <input
-            type="text"
-            name="eyeColor"
-            placeholder="Eye Color"
-            value={formData.physicalDescription.eyeColor}
-            onChange={(e) => handleChange(e, "physicalDescription")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-          />
-          <input
-            type="text"
-            name="hairColor"
-            placeholder="Hair Color"
-            value={formData.physicalDescription.hairColor}
-            onChange={(e) => handleChange(e, "physicalDescription")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-          />
-          <input
-            type="text"
-            name="distinguishingMarks"
-            placeholder="Distinguishing Marks"
-            value={formData.physicalDescription.distinguishingMarks}
-            onChange={(e) => handleChange(e, "physicalDescription")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
+            className="border rounded-lg p-2 w-full"
           />
         </div>
 
-        {/* Clothing & Belongings */}
-        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
-          Clothing & Belongings
+        {/* Section: Physical Description */}
+        <h3 className="text-lg font-semibold text-blue-800 mt-6 mb-3">
+          2. Physical Description
         </h3>
-        <div className="mb-6">
-          <input
-            type="text"
-            name="clothingDescription"
-            placeholder="Clothing Description"
-            value={formData.clothingDescription}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-          />
-          {formData.belongings.map((item, index) => (
+        <div className="grid md:grid-cols-2 gap-4">
+          {[
+            "height",
+            "weight",
+            "eyeColor",
+            "hairColor",
+            "distinguishingMarks",
+          ].map((field) => (
             <input
-              key={index}
+              key={field}
               type="text"
-              placeholder={`Belonging ${index + 1}`}
-              value={item}
-              onChange={(e) => handleBelongingsChange(index, e.target.value)}
-              className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
+              name={field}
+              placeholder={
+                field === "distinguishingMarks"
+                  ? "Distinguishing Marks (scars, tattoos)"
+                  : field.charAt(0).toUpperCase() + field.slice(1)
+              }
+              value={formData.physicalDescription[field]}
+              onChange={(e) => handleChange(e, "physicalDescription")}
+              className="border rounded-lg p-2 w-full"
             />
           ))}
-          <button
-            type="button"
-            onClick={addBelonging}
-            className="text-primary font-heading text-sm hover:text-secondary transition"
-          >
-            + Add Another Belonging
-          </button>
         </div>
 
-        {/* Photo */}
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:gap-4">
-          <label className="block text-neutral-dark mb-1">Photo</label>
+        {/* Section: Clothing & Belongings */}
+        <h3 className="text-lg font-semibold text-blue-800 mt-6 mb-3">
+          3. Clothing & Belongings
+        </h3>
+        <input
+          type="text"
+          name="clothingDescription"
+          placeholder="Clothing Description"
+          value={formData.clothingDescription}
+          onChange={handleChange}
+          className="border rounded-lg p-2 w-full mb-2"
+        />
+        {formData.belongings.map((item, index) => (
+          <input
+            key={index}
+            type="text"
+            placeholder={`Belonging ${index + 1}`}
+            value={item}
+            onChange={(e) => handleBelongingsChange(index, e.target.value)}
+            className="border rounded-lg p-2 w-full mb-2"
+          />
+        ))}
+        <button
+          type="button"
+          onClick={addBelonging}
+          className="text-blue-600 text-sm mb-4 hover:underline"
+        >
+          + Add Another Belonging
+        </button>
+
+        {/* Section: Photo */}
+        <h3 className="text-lg font-semibold text-blue-800 mt-6 mb-3">
+          4. Upload Photo
+        </h3>
+        <div className="border border-dashed border-gray-400 rounded-lg p-4 text-center">
+          {preview ? (
+            <img
+              src={preview}
+              alt="Preview"
+              className="w-40 h-40 object-cover mx-auto rounded-lg mb-3"
+            />
+          ) : (
+            <p className="text-gray-500 mb-2">
+              Upload a clear face photo (PNG/JPG recommended)
+            </p>
+          )}
           <input
             type="file"
-            name="photo"
-            onChange={(e) =>
-              setFormData({ ...formData, photo: e.target.files[0] })
-            }
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
+            accept="image/*"
+            onChange={handlePhotoChange}
+            className="w-full"
             required
           />
         </div>
 
-        {/* Recovery Details */}
-        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
-          Recovery Details
+        {/* Recovery & Storage Details */}
+        <h3 className="text-lg font-semibold text-blue-800 mt-6 mb-3">
+          5. Recovery & Storage Details
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div className="grid md:grid-cols-2 gap-4">
           <input
             type="text"
             name="recoveredBy"
-            placeholder="Recovered By (team/org)"
+            placeholder="Recovered By (Team/Organization)"
             value={formData.recoveryDetails.recoveredBy}
             onChange={(e) => handleChange(e, "recoveryDetails")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
+            className="border rounded-lg p-2 w-full"
           />
           <input
             type="text"
             name="contact"
-            placeholder="Rescue Contact No."
+            placeholder="Rescue Contact Number"
             value={formData.recoveryDetails.contact}
             onChange={(e) => handleChange(e, "recoveryDetails")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
+            className="border rounded-lg p-2 w-full"
           />
-          <input
-            type="text"
-            name="referenceId"
-            placeholder="Case / Reference ID"
-            value={formData.recoveryDetails.referenceId}
-            onChange={(e) => handleChange(e, "recoveryDetails")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-          />
-        </div>
-
-        {/* Storage Details */}
-        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
-          Storage Details
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <input
             type="text"
             name="hospital"
-            placeholder="Hospital"
+            placeholder="Hospital / Morgue Name"
             value={formData.storageDetails.hospital}
             onChange={(e) => handleChange(e, "storageDetails")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-          />
-          <input
-            type="text"
-            name="morgue"
-            placeholder="Morgue"
-            value={formData.storageDetails.morgue}
-            onChange={(e) => handleChange(e, "storageDetails")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
+            className="border rounded-lg p-2 w-full"
           />
           <input
             type="text"
@@ -380,47 +335,45 @@ const ManagerForm = () => {
             placeholder="Ward / Unit"
             value={formData.storageDetails.wardOrUnit}
             onChange={(e) => handleChange(e, "storageDetails")}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
+            className="border rounded-lg p-2 w-full"
           />
         </div>
 
-        {/* Case Status */}
-        <h3 className="flex text-lg sm:text-xl font-heading font-semibold text-neutral-dark mb-3 sm:mb-4">
-          Case Status
+        {/* Status & Notes */}
+        <h3 className="text-lg font-semibold text-blue-800 mt-6 mb-3">
+          6. Status & Notes
         </h3>
-        <div className="mb-6">
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-          >
-            <option value="unidentified">Unidentified</option>
-            <option value="matched">Matched</option>
-            <option value="claimed">Claimed</option>
-            <option value="closed">Closed</option>
-          </select>
-        </div>
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+          className="border rounded-lg p-2 w-full mb-3"
+        >
+          <option value="unidentified">Unidentified</option>
+          <option value="matched">Matched</option>
+          <option value="claimed">Claimed</option>
+          <option value="closed">Closed</option>
+        </select>
+        <textarea
+          name="additionalNotes"
+          placeholder="Additional notes or observations"
+          value={formData.additionalNotes}
+          onChange={handleChange}
+          className="border rounded-lg p-2 w-full"
+          rows="3"
+        />
 
-        {/* Additional Notes */}
-        <div className="mb-6">
-          <label className="block text-neutral-dark mb-1">Additional Notes</label>
-          <textarea
-            name="additionalNotes"
-            value={formData.additionalNotes}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary"
-            rows="3"
-          ></textarea>
-        </div>
-
-        {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-primary text-white font-heading py-2 sm:py-3 text-sm sm:text-base rounded-2xl hover:bg-secondary transition"
+          className="bg-blue-900 text-white mt-8 py-3 rounded-lg font-semibold w-full hover:bg-blue-800 transition"
         >
-          Submit Report
+          Submit Official Report
         </button>
+
+        <p className="text-gray-500 text-xs text-center mt-3">
+          After submission, you’ll receive a secure record ID for tracking.
+          Please ensure all details are accurate.
+        </p>
       </form>
     </div>
   );
