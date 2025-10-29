@@ -242,13 +242,13 @@ function Hero() {
         </p>
         <div className="mt-10 flex flex-col sm:flex-row justify-center gap-5">
           <a
-            href="#report"
+            href="client-form"
             className={`rounded-full ${CTA_ORANGE} px-8 py-4 font-medium ${LIGHT_TEXT} ${CTA_ORANGE_HOVER} transform hover:scale-[1.05]`}
           >
             Act Now: File a Critical Report
           </a>
           <a
-            href="#search"
+            href="search-match"
             className="rounded-full border border-white/30 px-8 py-4 font-medium text-white hover:bg-white/20"
           >
             Search Verified Matches
